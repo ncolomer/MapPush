@@ -1,0 +1,54 @@
+html,body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background-color: #fff;
+	font: 8pt "Helvetica Neue", sans-serif;
+	color: #000;
+}
+
+#map {
+	position: relative;
+	width: 600px;
+	height: 300px;
+	border: 2px inset;
+	margin: 20px auto;
+}
+
+#map-canvas {
+	width: 100%;
+	height: 100%;
+}
+
+#map-stats {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	margin-right: 10px;
+	margin-bottom: 30px;
+	text-align: right;
+	display: none;
+}
+#map-stats .eps {
+	font: bold 30pt Monaco;
+}
+#map-stats .tre {
+	font: 10pt Monaco;
+}
+
+#toolbar {
+	width: 100%;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+	background-color: #f8f8f8;
+	border-top: 1px dotted #ccc;
+	border-bottom: 1px dotted #ccc;
+}
+
+#toolbar > div {
+	display: inline-block;
+}

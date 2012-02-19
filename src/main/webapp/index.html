@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="jquery/jquery.atmosphere_0.9.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.16/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+<title>MapPush</title>
+</head>
+<body>
+
+<div id="map">
+	<div id="map-canvas"></div>
+	<div id="map-stats">
+		<div><span class="eps">0</span> <b>EPS</b></div>
+		<div><span class="tre">0</span></div>
+	</div>
+</div>
+
+<div id="toolbar">
+	<div id="button-connection">
+		<input type="radio" name="radio1" id="button-connect" /><label for="button-connect">Connect</label>
+		<input type="radio" name="radio1" id="button-disconnect" checked="checked" /><label for="button-disconnect">Disconnect</label>
+	</div>
+	<div id="button-fireworks">
+		<input type="radio" name="radio2" id="button-start" /><label for="button-start">Start</label>
+		<input type="radio" name="radio2" id="button-stop" checked="checked" /><label for="button-stop">Stop</label>
+	</div>
+	<input type="checkbox" id="button-stats" /><label for="button-stats">Statistics</label>
+</div>
+
+</body>
+</html>

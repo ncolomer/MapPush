@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.mappush</groupId>
+	<artifactId>MapPush</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>MapPush</name>
+
+	<properties>
+		<!-- <atmosphere.version>0.8.5</atmosphere.version> -->
+		<!-- <jersey.version>1.9.1</jersey.version> -->
+		<atmosphere.version>0.9-SNAPSHOT</atmosphere.version>
+		<jersey.version>1.10</jersey.version>
+		<javaee.version>6.0</javaee.version>
+		<junit.version>4.8.2</junit.version>
+		<logback.version>0.9.30</logback.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-war-plugin.version>2.1.1</maven-war-plugin.version>
+		<jetty.version>8.1.0.v20120127</jetty.version>
+	</properties>
+
+	<dependencies>
+		<!-- Atmosphere -->
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-jersey</artifactId>
+			<version>${atmosphere.version}</version>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.atmosphere</groupId> -->
+<!-- 			<artifactId>atmosphere-jquery</artifactId> -->
+<!-- 			<version>0.9-SNAPSHOT</version> -->
+<!-- 			<type>war</type> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Build -->
+
+	<build>
+		<finalName>MapPush</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/MapPush</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
