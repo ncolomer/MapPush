@@ -20,6 +20,13 @@
 		<jetty.version>8.1.0.v20120127</jetty.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>Mockito-all</id>
+			<url>http://repo2.maven.org/maven2/org/mockito/mockito-all</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Atmosphere -->
 		<dependency>
@@ -27,12 +34,12 @@
 			<artifactId>atmosphere-jersey</artifactId>
 			<version>${atmosphere.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.atmosphere</groupId> -->
-<!-- 			<artifactId>atmosphere-jquery</artifactId> -->
-<!-- 			<version>0.9-SNAPSHOT</version> -->
-<!-- 			<type>war</type> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.atmosphere</groupId> -->
+		<!-- <artifactId>atmosphere-jquery</artifactId> -->
+		<!-- <version>0.9-SNAPSHOT</version> -->
+		<!-- <type>war</type> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
@@ -45,12 +52,22 @@
 			<version>${javaee.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.9.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Log -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

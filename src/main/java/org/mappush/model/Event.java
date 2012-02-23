@@ -29,7 +29,7 @@ public class Event {
 	public String toString() {
 		return "Event[" +
 				"lat=" + lat + ", " +
-				"lng=" + lng + ", " +
+				"lng=" + lng +
 				"]";
 	}
 

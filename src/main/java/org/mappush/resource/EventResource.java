@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  * 
  * <pre>
- * event='{"lat":48.921266,"lng":2.499390,"pow":1}'
+ * event='{"lat":48.921266,"lng":2.499390}'
  * curl -v -X POST http://localhost:8080/MapPush/api/event -d $event -H "Content-Type: application/json"
  * </pre>
  * 
@@ -55,6 +55,7 @@ public class EventResource {
 
 	private static final Logger logger = LoggerFactory.getLogger(EventResource.class);
 	private static final Random random = new Random();
+	private static final BoundsFilter filter = new BoundsFilter();
 	private static Thread generator;
 	
 	private @Context BroadcasterFactory bf;
@@ -67,7 +68,7 @@ public class EventResource {
 	public void init() throws Exception {
 		logger.info("Initializing ApiResource");
 		BroadcasterConfig config = getBroadcaster().getBroadcasterConfig();
-		config.addFilter(new BoundsFilter());
+		config.addFilter(filter);
 	}
 
 	@GET
@@ -96,7 +97,7 @@ public class EventResource {
 	@Path("/event")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Broadcast
-	public Broadcastable event(Event event) {
+	public Broadcastable broadcastEvent(Event event) {
 		logger.info("/event triggered: {}", event);
 		return new Broadcastable(event, "", getBroadcaster());
 	}
