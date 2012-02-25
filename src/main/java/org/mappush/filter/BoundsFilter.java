@@ -8,6 +8,7 @@ import org.atmosphere.cpr.BroadcastFilter.BroadcastAction.ACTION;
 import org.atmosphere.cpr.PerRequestBroadcastFilter;
 import org.mappush.model.Bounds;
 import org.mappush.model.Event;
+import org.mappush.resource.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +32,8 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 			Bounds bounds = (Bounds) session.getAttribute("bounds");
 			if (bounds == null) throw new NoBoundsException("no bounds");
 			if (bounds.contains(event)) {
-				//String json = JsonUtils.toJson(event); // Manual serialization here?
-				return new BroadcastAction(ACTION.CONTINUE, event);
+				String json = JsonUtils.toJson(event); // Manual serialization here?
+				return new BroadcastAction(ACTION.CONTINUE, json);
 			} else {
 				return new BroadcastAction(ACTION.ABORT, message);
 			}

@@ -53,10 +53,11 @@ $(document).ready(function() {
 function googleMapInit() {
 	// Init the map
 	var paris = new google.maps.LatLng(48.857720, 2.345581);
+	var atlantica = new google.maps.LatLng(40, -40);
 	var mapOptions = {
 			zoom: 2,
-			center: paris,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			center: atlantica,
+			mapTypeId: google.maps.MapTypeId.ROADMAP, //TERRAIN
 			panControl: false
 	};
 	mapsAgent.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -104,8 +105,8 @@ var mapsAgent = {
 		"getBounds": function() {
 			var bounds = this.map.getBounds();
 			return {
-				"northLat": bounds.getNorthEast().lat(),
 				"southLat": bounds.getSouthWest().lat(),
+				"northLat": bounds.getNorthEast().lat(),
 				"westLng": bounds.getSouthWest().lng(),
 				"eastLng": bounds.getNorthEast().lng()
 			};
@@ -145,7 +146,7 @@ function connect() {
 	};
 
 	var bounds = mapsAgent.getBounds();
-	var header = bounds.northLat + "," + bounds.southLat + "," + bounds.westLng + "," + bounds.eastLng;
+	var header = bounds.southLat + "," + bounds.northLat + "," + bounds.westLng + "," + bounds.eastLng;
 	endpoint = $.atmosphere.subscribe(url, callback, {
 		attachHeadersAsQueryString: true,
 		transport: 'websocket', /* websocket, jsonp, long-polling, polling, streaming */

@@ -2,8 +2,8 @@ package org.mappush.model;
 
 public class Bounds {
 
-	private double northLat;
 	private double southLat;
+	private double northLat;
 	private double westLng;
 	private double eastLng;
 	
@@ -11,30 +11,30 @@ public class Bounds {
 
 	public Bounds(String fromHeader) {
 		String[] coordinates = fromHeader.split(",");
-		this.northLat = Double.parseDouble(coordinates[0]);
-		this.southLat = Double.parseDouble(coordinates[1]);
+		this.southLat = Double.parseDouble(coordinates[0]);
+		this.northLat = Double.parseDouble(coordinates[1]);
 		this.westLng = Double.parseDouble(coordinates[2]);
 		this.eastLng = Double.parseDouble(coordinates[3]);
 	}
 	
-	public Bounds(double northLat, double southLat, double westLng, double eastLng) {
-		this.northLat = northLat;
+	public Bounds(double southLat, double northLat, double westLng, double eastLng) {
 		this.southLat = southLat;
+		this.northLat = northLat;
 		this.westLng = westLng;
 		this.eastLng = eastLng;
 	}
 	
-	public double getNorthLat() {
-		return northLat;
-	}
-	public void setNorthLat(double northLat) {
-		this.northLat = northLat;
-	}
 	public double getSouthLat() {
 		return southLat;
 	}
 	public void setSouthLat(double southLat) {
 		this.southLat = southLat;
+	}
+	public double getNorthLat() {
+		return northLat;
+	}
+	public void setNorthLat(double northLat) {
+		this.northLat = northLat;
 	}
 	public double getWestLng() {
 		return westLng;
@@ -50,7 +50,7 @@ public class Bounds {
 	}
 	
 	public final boolean contains(double lat, double lng) {
-		if (lat <= northLat && lat > southLat && lng <= eastLng && lng > westLng) return true;
+		if (lat > southLat && lat <= northLat && lng > westLng && lng <= eastLng) return true;
 		else return false;
 	}
 	
@@ -61,8 +61,8 @@ public class Bounds {
 	@Override
 	public String toString() {
 		return "Bounds[" +
-				"northLat=" + northLat + ", " +
 				"southLat=" + southLat + ", " +
+				"northLat=" + northLat + ", " +
 				"westLng=" + westLng + ", " +
 				"eastLng=" + eastLng +
 				"]";
