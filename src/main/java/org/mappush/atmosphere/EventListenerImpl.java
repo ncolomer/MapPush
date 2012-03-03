@@ -8,15 +8,15 @@ import org.atmosphere.websocket.WebSocketEventListener;
 
 public class EventListenerImpl implements WebSocketEventListener {
 
-	public void onSuspend(AtmosphereResourceEvent<HttpServletRequest, HttpServletResponse> event) {}
+	public void onSuspend(AtmosphereResourceEvent event) {}
 
-	public void onResume(AtmosphereResourceEvent<HttpServletRequest, HttpServletResponse> event) {}
+	public void onResume(AtmosphereResourceEvent event) {}
 
-	public void onDisconnect(AtmosphereResourceEvent<HttpServletRequest, HttpServletResponse> event) {}
+	public void onDisconnect(AtmosphereResourceEvent event) {}
 
-	public void onBroadcast(AtmosphereResourceEvent<HttpServletRequest, HttpServletResponse> event) {}
+	public void onBroadcast(AtmosphereResourceEvent event) {}
 
-	public void onThrowable(AtmosphereResourceEvent<HttpServletRequest, HttpServletResponse> event) {}
+	public void onThrowable(AtmosphereResourceEvent event) {}
 
 	public void onHandshake(WebSocketEvent event) {}
 
