@@ -1,8 +1,8 @@
 package org.mappush.filter;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.atmosphere.cpr.AtmosphereRequest;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.BroadcastFilter.BroadcastAction.ACTION;
 import org.atmosphere.cpr.PerRequestBroadcastFilter;
@@ -22,8 +22,8 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 	}
 	
 	@Override
-	public BroadcastAction filter(AtmosphereResource<?, ?> atmosphereResource, Object originalMessage, Object message) {
-		HttpServletRequest request = (HttpServletRequest) atmosphereResource.getRequest();
+	public BroadcastAction filter(AtmosphereResource atmosphereResource, Object originalMessage, Object message) {
+		AtmosphereRequest request = atmosphereResource.getRequest();
 		logger.info("BoundsFilter triggered for client {} with message {}", request.getLocalAddr(), message);
 		Event event = (Event) message;
 		try {
@@ -32,14 +32,15 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 			Bounds bounds = (Bounds) session.getAttribute("bounds");
 			if (bounds == null) throw new NoBoundsException("no bounds");
 			if (bounds.contains(event)) {
-				String json = JsonUtils.toJson(event); // Manual serialization here?
+				String json = JsonUtils.toJson(event); // Manual serialization
 				return new BroadcastAction(ACTION.CONTINUE, json);
 			} else {
 				return new BroadcastAction(ACTION.ABORT, message);
 			}
 		} catch (NoBoundsException e) {
-			logger.info("Filter BoundsFilter aborted, cause: {}", e.getMessage());
-			return new BroadcastAction(ACTION.ABORT, message);
+			logger.info("Applying default action, cause: {}", e.getMessage());
+			String json = JsonUtils.toJson(event); // Manual serialization
+			return new BroadcastAction(ACTION.CONTINUE, json);
 		} catch (Exception e) {
 			logger.info("Filter BoundsFilter aborted, cause: {}", e.getMessage());
 			return new BroadcastAction(ACTION.ABORT, message);

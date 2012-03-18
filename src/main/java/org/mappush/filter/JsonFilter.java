@@ -15,8 +15,8 @@ public class JsonFilter implements BroadcastFilter {
 	public BroadcastAction filter(Object originalMessage, Object message) {
 		logger.info("Filter JsonFilter for message: {}", message);
 		try {
-			Event nuke = (Event) message;
-			String json = JsonUtils.toJson(nuke);
+			Event event = (Event) message;
+			String json = JsonUtils.toJson(event);
 			return new BroadcastAction(ACTION.CONTINUE, json);
 		} catch (Exception e) {
 			logger.info("Filter aborted for message [{}], cause: {}", message, e.getMessage());
