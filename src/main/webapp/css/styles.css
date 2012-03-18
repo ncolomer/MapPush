@@ -1,9 +1,3 @@
-html,body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	width: 100%;
-}
 
 body {
 	background-color: #fff;
@@ -34,10 +28,10 @@ body {
 	display: none;
 }
 #map-stats .eps {
-	font: bold 30pt Monaco;
+	font: bold 30pt "Courier New", Courier, monospace;
 }
 #map-stats .tre {
-	font: 10pt Monaco;
+	font: 12pt "Courier New", Courier, monospace; /*Monaco*/
 }
 
 #toolbar {

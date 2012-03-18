@@ -216,16 +216,29 @@ jQuery.atmosphere = function() {
              */
             function _execute() {
                 if (_request.transport != 'websocket') {
+                    _open(_request.transport);
                     _executeRequest();
 
                 } else if (_request.transport == 'websocket') {
                     if (!_supportWebsocket()) {
                         jQuery.atmosphere.log(_request.logLevel, ["Websocket is not supported, using request.fallbackTransport (" + _request.fallbackTransport + ")"]);
+                        _open(_request.fallbackTransport);
                         _reconnectWithFallbackTransport();
                     } else {
                         _executeWebSocket();
                     }
                 }
+            }
+
+            /**
+             * @private
+             */
+            function _open(transport) {
+                _response.state = 'opening';
+                _response.status = 200;
+                _response.transport = transport;
+                _response.responseBody = "";
+                _invokeCallback();
             }
 
             /**
@@ -349,10 +362,7 @@ jQuery.atmosphere = function() {
                     }
 
                     _subscribed = true;
-                    _response.state = 'opening';
-                    _response.status = 200;
-                    _response.responseBody = "";
-                    _invokeCallback();
+                    _open("websocket");
 
                     webSocketOpened = true;
 
@@ -494,8 +504,7 @@ jQuery.atmosphere = function() {
                 if (rq.contentType != '') {
                     url += "&Content-Type=" + rq.contentType;
                 }
-                
-                //jQuery.each(request.headers, function(name, value) { // TODO
+
                 jQuery.each(rq.headers, function(name, value) {
                     var h = jQuery.isFunction(value) ? value.call(this, ajaxRequest, request, create) : value;
                     if (h) {
@@ -611,11 +620,6 @@ jQuery.atmosphere = function() {
 
                         rq.readyState = ajaxRequest.readyState;
 
-                        var tempDate = ajaxRequest.getResponseHeader('X-Cache-Date');
-                        if (tempDate != null || tempDate != undefined) {
-                            _request.lastTimestamp = tempDate.split(" ").pop();
-                        }
-
                         if (ajaxRequest.readyState == 4) {
                         	if (jQuery.browser.msie) {
                                 update = true;
@@ -634,6 +638,12 @@ jQuery.atmosphere = function() {
                         }
 
                         if (update) {
+
+                            var tempDate = ajaxRequest.getResponseHeader('X-Cache-Date');
+                            if (tempDate != null || tempDate != undefined) {
+                                _request.lastTimestamp = tempDate.split(" ").pop();
+                            }
+
                             var responseText = ajaxRequest.responseText;
                             this.previousLastIndex = rq.lastIndex;
                             if (rq.transport == 'streaming') {
@@ -909,11 +919,10 @@ jQuery.atmosphere = function() {
                     open: function() {
                         var iframe = doc.createElement("iframe");
 
-                        if (rq.method == 'POST') {
-                            url = _attachHeaders(rq);
-                            if (rq.data != '') {
-                                url += "&X-Atmosphere-Post-Body=" + rq.data;
-                            }
+                        rq.attachHeadersAsQueryString = true;
+                        url = _attachHeaders(rq);
+                        if (rq.data != '') {
+                            url += "&X-Atmosphere-Post-Body=" + rq.data;
                         }
 
                         // Finally attach a timestamp to prevent Android and IE caching.
@@ -1085,7 +1094,7 @@ jQuery.atmosphere = function() {
             /**
              * Build request use to push message using method 'POST' <br>.
              * Transport is defined as 'polling' and 'suspend' is set to false.
-             * 
+             *
              * @return {Object} Request object use to push message.
              * @private
              */
@@ -1097,7 +1106,7 @@ jQuery.atmosphere = function() {
                     timeout: 60000,
                     method: 'POST',
                     url: _request.url,
-                    contentType : '',
+                    contentType : _request.contentType,
                     headers: {},
                     cache: true,
                     async: true,
@@ -1111,6 +1120,10 @@ jQuery.atmosphere = function() {
                     requestCount : 0,
                     transport: 'polling'
                 };
+
+                if (typeof(message) == 'object') {
+                    rq = $.extend(rq, message);
+                }
 
                 return rq;
             }
