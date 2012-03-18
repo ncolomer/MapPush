@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:j2ee="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/j2ee/web-app_3.0.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3.0.xsd">
+	<!-- <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" -->
+	<!-- xmlns:j2ee="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
+	<!-- xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2.5.xsd"> -->
 	<description>MapPush</description>
 	<display-name>MapPush</display-name>
 	<welcome-file-list>
@@ -11,7 +14,15 @@
 		<description>AtmosphereServlet</description>
 		<servlet-name>AtmosphereServlet</servlet-name>
 		<servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
-		<async-supported>true</async-supported>
+<!-- 		<async-supported>true</async-supported> -->
+		<init-param>
+			<param-name>org.atmosphere.useNative</param-name>
+			<param-value>true</param-value>
+		</init-param>
+<!-- 		<init-param> -->
+<!-- 			<param-name>org.atmosphere.useWebSocket</param-name> -->
+<!-- 			<param-value>true</param-value> -->
+<!-- 		</init-param> -->
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>org.mappush.resource</param-value>
@@ -20,15 +31,7 @@
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		<init-param>
-			<param-name>org.atmosphere.useWebSocket</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>org.atmosphere.useNative</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>0</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AtmosphereServlet</servlet-name>
