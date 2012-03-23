@@ -18,7 +18,7 @@ public class EventListener extends WebSocketEventListenerAdapter {
 		if (bounds == null) return;
 		logger.info("New bounds {} for resource {}", event.message(), event.webSocket().resource().hashCode());
 		HttpServletRequest req = (HttpServletRequest) event.webSocket().resource().getRequest();
-		req.getSession(true).setAttribute("bounds", bounds);
+		req.setAttribute("bounds", bounds);
 	}
 
 }

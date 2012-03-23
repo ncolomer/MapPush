@@ -1,7 +1,5 @@
 package org.mappush.filter;
 
-import javax.servlet.http.HttpSession;
-
 import org.atmosphere.cpr.AtmosphereRequest;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.BroadcastFilter.BroadcastAction.ACTION;
@@ -27,9 +25,7 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 		logger.info("BoundsFilter triggered for client {} with message {}", request.getLocalAddr(), message);
 		Event event = (Event) message;
 		try {
-			HttpSession session = request.getSession(false);
-			if (session == null) throw new NoBoundsException("no session");
-			Bounds bounds = (Bounds) session.getAttribute("bounds");
+			Bounds bounds = (Bounds) request.getAttribute("bounds");
 			if (bounds == null) throw new NoBoundsException("no bounds");
 			if (bounds.contains(event)) {
 				String json = JsonUtils.toJson(event); // Manual serialization

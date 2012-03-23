@@ -90,7 +90,7 @@ public class EventResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public SuspendResponse<String> connect(@Context HttpServletRequest req,
 			@HeaderParam("X-Map-Bounds") Bounds bounds) {
-		if (bounds != null) req.getSession(true).setAttribute("bounds", bounds);
+		if (bounds != null) req.setAttribute("bounds", bounds);
 		return new SuspendResponse.SuspendResponseBuilder<String>()
 				.broadcaster(getBroadcaster())
 				.outputComments(true)
