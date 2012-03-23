@@ -3,7 +3,6 @@ package org.mappush.resource;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -15,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.atmosphere.annotation.Broadcast;
+import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.Broadcaster;
 import org.atmosphere.cpr.BroadcasterConfig;
 import org.atmosphere.cpr.BroadcasterFactory;
@@ -88,9 +88,9 @@ public class EventResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public SuspendResponse<String> connect(@Context HttpServletRequest req,
+	public SuspendResponse<String> connect(@Context AtmosphereResource res,
 			@HeaderParam("X-Map-Bounds") Bounds bounds) {
-		if (bounds != null) req.setAttribute("bounds", bounds);
+		if (bounds != null) res.getRequest().setAttribute("bounds", bounds);
 		return new SuspendResponse.SuspendResponseBuilder<String>()
 				.broadcaster(getBroadcaster())
 				.outputComments(true)

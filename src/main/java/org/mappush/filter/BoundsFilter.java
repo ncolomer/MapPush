@@ -20,9 +20,9 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 	}
 	
 	@Override
-	public BroadcastAction filter(AtmosphereResource atmosphereResource, Object originalMessage, Object message) {
-		AtmosphereRequest request = atmosphereResource.getRequest();
-		logger.info("BoundsFilter triggered for client {} with message {}", request.getLocalAddr(), message);
+	public BroadcastAction filter(AtmosphereResource res, Object originalMessage, Object message) {
+		AtmosphereRequest request = res.getRequest();
+		logger.info("BoundsFilter triggered for AtmosphereResource {} with message {}", res.hashCode(), message);
 		Event event = (Event) message;
 		try {
 			Bounds bounds = (Bounds) request.getAttribute("bounds");
