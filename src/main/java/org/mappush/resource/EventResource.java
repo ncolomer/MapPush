@@ -28,6 +28,8 @@ import org.mappush.model.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.jersey.spi.resource.Singleton;
+
 /**
  * <pre>
  * curl -v -N -X GET http://localhost:8080/MapPush/api
@@ -45,16 +47,15 @@ import org.slf4j.LoggerFactory;
  */
 
 @Path("/")
-//@Singleton // <== problem ?
+@Singleton
 public class EventResource {
 
-	private static final Logger logger = LoggerFactory.getLogger(EventResource.class);
+	private final Logger logger = LoggerFactory.getLogger(EventResource.class);
 	
-	private static final Random random = new Random();
-	private static final BoundsFilter filter = new BoundsFilter();
-	private static final EventListener listener = new EventListener();
+	private final Random random = new Random();
+	private final EventListener listener = new EventListener();
 	
-	private static Thread generator;
+	private Thread generator;
 	
 	private @Context BroadcasterFactory bf;
 	
@@ -75,7 +76,7 @@ public class EventResource {
 	public void init() {
 		logger.info("Initializing EventResource");
 		BroadcasterConfig config = getBroadcaster().getBroadcasterConfig();
-		config.addFilter(filter);
+		config.addFilter(new BoundsFilter());
 	}
 
 	/**

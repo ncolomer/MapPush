@@ -34,7 +34,7 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 				return new BroadcastAction(ACTION.ABORT, message);
 			}
 		} catch (NoBoundsException e) {
-			logger.info("Applying default action, cause: {}", e.getMessage());
+			logger.info("Applying default action CONTINUE, cause: {}", e.getMessage());
 			String json = JsonUtils.toJson(event); // Manual serialization
 			return new BroadcastAction(ACTION.CONTINUE, json);
 		} catch (Exception e) {
