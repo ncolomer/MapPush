@@ -8,7 +8,7 @@
 	<name>MapPush</name>
 
 	<properties>
-		<atmosphere.version>0.9-SNAPSHOT</atmosphere.version>
+		<atmosphere.version>0.9.0.RC2</atmosphere.version>
 		<jersey.version>1.10</jersey.version>
 		<javaee.version>6.0</javaee.version>
 		<junit.version>4.8.2</junit.version>

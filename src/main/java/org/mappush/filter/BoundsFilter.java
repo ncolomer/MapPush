@@ -1,6 +1,5 @@
 package org.mappush.filter;
 
-import org.atmosphere.cpr.AtmosphereRequest;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.BroadcastFilter.BroadcastAction.ACTION;
 import org.atmosphere.cpr.PerRequestBroadcastFilter;
@@ -21,11 +20,10 @@ public class BoundsFilter implements PerRequestBroadcastFilter {
 	
 	@Override
 	public BroadcastAction filter(AtmosphereResource res, Object originalMessage, Object message) {
-		AtmosphereRequest request = res.getRequest();
 		logger.info("BoundsFilter triggered for AtmosphereResource {} with message {}", res.hashCode(), message);
 		Event event = (Event) message;
 		try {
-			Bounds bounds = (Bounds) request.getAttribute("bounds");
+			Bounds bounds = (Bounds) res.getRequest().getAttribute("bounds");
 			if (bounds == null) throw new NoBoundsException("no bounds");
 			if (bounds.contains(event)) {
 				String json = JsonUtils.toJson(event); // Manual serialization

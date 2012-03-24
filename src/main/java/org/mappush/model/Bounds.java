@@ -1,7 +1,5 @@
 package org.mappush.model;
 
-import org.mappush.filter.BoundsFilter;
-import org.slf4j.LoggerFactory;
 
 public class Bounds {
 
@@ -13,9 +11,6 @@ public class Bounds {
 	public Bounds() {}
 
 	public Bounds(String fromHeader) {
-		
-		LoggerFactory.getLogger(BoundsFilter.class).info(fromHeader);
-		
 		String[] coordinates = fromHeader.split(",");
 		this.southLat = Double.parseDouble(coordinates[0]);
 		this.northLat = Double.parseDouble(coordinates[1]);

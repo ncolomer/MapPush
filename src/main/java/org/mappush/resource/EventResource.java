@@ -83,7 +83,7 @@ public class EventResource {
 	 * When the client connects to this URI, the response is suspended or 
 	 * upgraded if it is WebSocket capable. A Broadcaster is affected to 
 	 * deliver future messages and manage the communication lifecycle.
-	 * @param req the request (injected by the container)
+	 * @param res the AtmosphereResource (injected by the container)
 	 * @param bounds the bounds (extracted from header and deserialized)
 	 * @return a SuspendResponse
 	 */

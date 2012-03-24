@@ -148,8 +148,8 @@ function connect() {
 	var bounds = mapsAgent.getBounds();
 	var header = bounds.southLat + "," + bounds.northLat + "," + bounds.westLng + "," + bounds.eastLng;
 	endpoint = $.atmosphere.subscribe(url, callback, {
+		transport: 'streaming', /* websocket, jsonp, long-polling, polling, streaming */
 		attachHeadersAsQueryString: true,
-		transport: 'websocket', /* websocket, jsonp, long-polling, polling, streaming */
 		headers: {"X-Map-Bounds": header}
 	});
 }
