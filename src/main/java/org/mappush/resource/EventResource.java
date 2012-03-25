@@ -13,13 +13,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.atmosphere.annotation.Broadcast;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.Broadcaster;
 import org.atmosphere.cpr.BroadcasterConfig;
 import org.atmosphere.cpr.BroadcasterFactory;
 import org.atmosphere.cpr.DefaultBroadcaster;
-import org.atmosphere.jersey.Broadcastable;
 import org.atmosphere.jersey.SuspendResponse;
 import org.mappush.atmosphere.EventListener;
 import org.mappush.filter.BoundsFilter;
@@ -108,10 +106,10 @@ public class EventResource {
 	@POST
 	@Path("event")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Broadcast
-	public Broadcastable broadcastEvent(Event event) {
+	public Response broadcastEvent(Event event) {
 		logger.info("New event: {}", event);
-		return new Broadcastable(event, "", getBroadcaster());
+		getBroadcaster().broadcast(event);
+		return Response.ok().build();
 	}
 	
 	@GET
@@ -152,5 +150,4 @@ public class EventResource {
 
 	}
 	
-
 }
