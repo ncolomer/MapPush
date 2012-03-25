@@ -63,8 +63,8 @@ public class EventResource {
 
 	/**
 	 * The @PostConstruct annotation makes this method executed by the 
-	 * container after this class is instanciated. It is one way to initialize 
-	 * the Broadcaster by adding some Filters
+	 * container after this resource is instanciated. It is one way 
+	 * to initialize the Broadcaster (e.g. by adding some Filters)
 	 */
 	@PostConstruct
 	public void init() {
@@ -77,8 +77,9 @@ public class EventResource {
 
 	/**
 	 * When the client connects to this URI, the response is suspended or 
-	 * upgraded if it is WebSocket capable. A Broadcaster is affected to 
-	 * deliver future messages and manage the communication lifecycle.
+	 * upgraded if both client and server arc WebSocket capable. A Broadcaster 
+	 * is affected to deliver future messages and manage the 
+	 * communication lifecycle.
 	 * @param res the AtmosphereResource (injected by the container)
 	 * @param bounds the bounds (extracted from header and deserialized)
 	 * @return a SuspendResponse
@@ -98,8 +99,8 @@ public class EventResource {
 	/**
 	 * This URI allows a client to send a new Event that will be broadcaster 
 	 * to all other connected clients.
-	 * @param event the Event (deserialized from JSON)
-	 * @return a Broadcastable
+	 * @param event the Event (deserialized from JSON by Jersey)
+	 * @return a Response
 	 */
 	@POST
 	@Path("event")

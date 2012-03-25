@@ -13,11 +13,20 @@ public class EventGenerator {
 	private int interval;
 	private Thread generator;
 	
+	/**
+	 * EventGenerator constructor.
+	 * @param broadcaster The Broadcaster used to push generated events
+	 * @param interval The interval time in ms between each event generation
+	 */
 	public EventGenerator(Broadcaster broadcaster, int interval) {
 		this.broadcaster = broadcaster;
 		this.interval = interval;
 	}
 	
+	/**
+	 * Starts the generation of random events. Each event is broadcasted
+	 * using the provided Broadcaster.
+	 */
 	public void start() {
 		if (generator == null) {
 			generator = new Thread(new Generator() , "GeneratorThread");
@@ -25,6 +34,9 @@ public class EventGenerator {
 		}
 	}
 	
+	/**
+	 * Stops the generation of random events.
+	 */
 	public void stop() {
 		if (generator != null) {
 			generator.interrupt();
@@ -32,7 +44,7 @@ public class EventGenerator {
 		}
 	}
 	
-	public class Generator implements Runnable {
+	private class Generator implements Runnable {
 		
 		@Override
 		public void run() {

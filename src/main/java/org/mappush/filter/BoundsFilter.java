@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class BoundsFilter implements PerRequestBroadcastFilter {
 
-	private static final Logger logger = LoggerFactory.getLogger(BoundsFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(BoundsFilter.class);
 
 	@Override
 	public BroadcastAction filter(Object originalMessage, Object message) {

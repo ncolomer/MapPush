@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class EventListener extends WebSocketEventListenerAdapter {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EventListener.class);
+	private final Logger logger = LoggerFactory.getLogger(EventListener.class);
 
 	@Override
 	public void onMessage(WebSocketEvent event) {
