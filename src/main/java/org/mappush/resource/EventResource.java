@@ -1,7 +1,5 @@
 package org.mappush.resource;
 
-import java.util.Random;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -49,11 +47,9 @@ import com.sun.jersey.spi.resource.Singleton;
 public class EventResource {
 
 	private final Logger logger = LoggerFactory.getLogger(EventResource.class);
-	
-	private final Random random = new Random();
-	private final EventListener listener = new EventListener();
-	
-	private Thread generator;
+
+	private EventListener listener;
+	private EventGenerator generator;
 	
 	private @Context BroadcasterFactory bf;
 	
@@ -75,6 +71,8 @@ public class EventResource {
 		logger.info("Initializing EventResource");
 		BroadcasterConfig config = getBroadcaster().getBroadcasterConfig();
 		config.addFilter(new BoundsFilter());
+		listener = new EventListener();
+		generator = new EventGenerator(getBroadcaster(), 100);
 	}
 
 	/**
@@ -115,39 +113,17 @@ public class EventResource {
 	@GET
 	@Path("start")
 	public Response start() {
-		if (generator == null) {
-			logger.info("Starting EventGenerator");
-			generator = new Thread(new EventGenerator() , "EventGenerator");
-			generator.start();
-		}
+		logger.info("Starting EventGenerator");
+		generator.start();
 		return Response.ok().build();
 	}
 	
 	@GET
 	@Path("stop")
 	public Response stop() {
-		if (generator != null) {
-			logger.info("Stopping EventGenerator");
-			generator.interrupt();
-			generator = null;
-		}
+		logger.info("Stopping EventGenerator");
+		generator.stop();
 		return Response.ok().build();
-	}
-	
-	public class EventGenerator implements Runnable {
-		
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					double lat = (random.nextInt((int)(180*10E6)) - 90*10E6) / 10E6 ;
-					double lng = (random.nextInt((int)(360*10E6)) - 180*10E6) / 10E6 ;
-					getBroadcaster().broadcast(new Event(lat, lng));
-					Thread.sleep(100);
-				} catch (InterruptedException e) {break;}
-			}
-		}
-
 	}
 	
 }
