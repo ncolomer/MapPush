@@ -57,7 +57,7 @@ function googleMapInit() {
 	var mapOptions = {
 			zoom: 2,
 			center: atlantica,
-			mapTypeId: google.maps.MapTypeId.ROADMAP, //TERRAIN
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			panControl: false
 	};
 	mapsAgent.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -129,7 +129,7 @@ function connect() {
 	var callback = function callback(response) {
 		// Websocket events.
 		if (response.state == "opening") {
-			console.log("Connected to realtime endpoint");
+			console.log("Connected to realtime endpoint using " + response.transport);
 		} else if (response.state == "closed") {
 			console.log("Disconnected from realtime endpoint");
 		} else if (response.transport != 'polling' && response.state == 'messageReceived') {
@@ -137,7 +137,7 @@ function connect() {
 				var data = response.responseBody;
 				if (data.length > 0) {
 					statsAgent.notify();
-					console.log("Message Received: " + data + " & detected transport is " + response.transport);
+					console.log("Message Received using " + response.transport + ": " + data);
 					var json = JSON.parse(data);
 					mapsAgent.drawEvent(json);
 				}
@@ -169,7 +169,7 @@ function update(bounds) {
 function trigger(latLng) {
 	if (!endpoint) return;
 	var data = {"lat": latLng.lat(), "lng": latLng.lng()};
-	console.log("### Trigger fireworks:", JSON.stringify(data));
+	console.log("### Trigger event:", JSON.stringify(data));
 	$.ajax({
 		type: "POST",
 		url: url + "/event",
