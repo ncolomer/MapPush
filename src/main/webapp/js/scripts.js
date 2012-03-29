@@ -1,6 +1,10 @@
 var url = document.location.toString() + "api";
 
 $(document).ready(function() {
+	// IE compatibility
+	console = (!window.console) ? {} : window.console;
+	console.log = (!window.console.log) ? function() {} : window.console.log;
+	
 	$("#dialog").dialog({
 		title: 'Statistics',
 		autoOpen: false,
