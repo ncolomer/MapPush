@@ -115,6 +115,10 @@ var mapsAgent = {
 				"eastLng": bounds.getNorthEast().lng()
 			};
 		},
+		"getBoundsHeader": function() {
+			var bounds = this.getBounds();
+			return bounds.southLat + "," + bounds.northLat + "," + bounds.westLng + "," + bounds.eastLng;
+		},
 		"drawEvent": function(json) {
 			var marker = new google.maps.Marker({
 				map: this.map,
@@ -129,7 +133,6 @@ var mapsAgent = {
 
 var endpoint;
 function connect() {
-
 	var callback = function callback(response) {
 		// Websocket events.
 		if (response.state == "opening") {
@@ -148,14 +151,11 @@ function connect() {
 			}
 		}
 	};
-
-	var bounds = mapsAgent.getBounds();
-	var header = bounds.southLat + "," + bounds.northLat + "," + bounds.westLng + "," + bounds.eastLng;
 	endpoint = $.atmosphere.subscribe(url, callback, {
 		transport: 'websocket', /* websocket, jsonp, long-polling, polling, streaming */
 		fallbackTransport: 'streaming',
 		attachHeadersAsQueryString: true,
-		headers: {"X-Map-Bounds": header}
+		headers: {"X-Map-Bounds": mapsAgent.getBoundsHeader()}
 	});
 }
 
