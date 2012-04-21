@@ -1,4 +1,4 @@
-var url = document.location.toString() + "api";
+var apiUrl = document.location.toString() + "api";
 
 $(document).ready(function() {
 	// IE compatibility
@@ -16,9 +16,9 @@ $(document).ready(function() {
 	$("#button-fireworks").buttonset().change(function() {
 		var selected = $("#button-fireworks input[type='radio']:checked")[0];
 		if ($("#button-start").is(selected)) {
-			$.ajax({type: "GET", url: url + "/start"});
+			$.ajax({type: "GET", url: apiUrl + "/start"});
 		} else {
-			$.ajax({type: "GET", url: url + "/stop"});
+			$.ajax({type: "GET", url: apiUrl + "/stop"});
 		}
 	});
 	$("#button-start").button({icons: {primary:'ui-icon-play'}});
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		} else {
 			console.log("Disconnecting...");
 			disconnect(); 
-		}
+		}		
 	});
 	$("#button-connect").button({icons: {primary:'ui-icon-link'}});
 	$("#button-disconnect").button({icons: {primary:'ui-icon-cancel'}});
@@ -131,15 +131,24 @@ var mapsAgent = {
 		}
 };
 
-var endpoint;
+var socket;
 function connect() {
-	var callback = function callback(response) {
-		// Websocket events.
-		if (response.state == "opening") {
-			console.log("Connected to realtime endpoint using " + response.transport);
-		} else if (response.state == "closed") {
-			console.log("Disconnected from realtime endpoint");
-		} else if (response.transport != 'polling' && response.state == 'messageReceived') {
+	var request = {
+			url: apiUrl,
+			logLevel : 'info',
+			transport: 'websocket', /* websocket, jsonp, long-polling, polling, streaming */
+			fallbackTransport: 'streaming',
+			attachHeadersAsQueryString: true,
+			headers: {"X-Map-Bounds": mapsAgent.getBoundsHeader()}
+	};
+	request.onOpen = function(response) {
+		console.log("Connected to realtime endpoint using " + response.transport);
+	};
+	request.onClose = function(response) {
+		console.log("Disconnected from realtime endpoint");
+	};
+	request.onMessage = function (response) {
+		if (response.transport != 'polling' && response.state == 'messageReceived') {
 			if (response.status == 200) {
 				var data = response.responseBody;
 				if (data.length > 0) {
@@ -151,32 +160,27 @@ function connect() {
 			}
 		}
 	};
-	endpoint = $.atmosphere.subscribe(url, callback, {
-		transport: 'websocket', /* websocket, jsonp, long-polling, polling, streaming */
-		fallbackTransport: 'streaming',
-		attachHeadersAsQueryString: true,
-		headers: {"X-Map-Bounds": mapsAgent.getBoundsHeader()}
-	});
+	socket = $.atmosphere.subscribe(request);
 }
 
 function disconnect() {
 	$.atmosphere.unsubscribe();
-	endpoint = null;
+	socket = null;
 }
 
 function update(bounds) {
 	console.log("### Map bounds changed:", JSON.stringify(bounds));
-	if (!endpoint) return;
-	endpoint.push(JSON.stringify(bounds));
+	if (!socket) return;
+	socket.push(JSON.stringify(bounds));
 }
 
 function trigger(latLng) {
-	if (!endpoint) return;
+	if (!socket) return;
 	var data = {"lat": latLng.lat(), "lng": latLng.lng()};
 	console.log("### Trigger event:", JSON.stringify(data));
 	$.ajax({
 		type: "POST",
-		url: url + "/event",
+		url: apiUrl + "/event",
 		contentType: "application/json",
 		data: JSON.stringify(data)
 	});
