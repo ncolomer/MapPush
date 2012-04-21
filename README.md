@@ -1,6 +1,6 @@
 ## MapPush demonstration
 ### Kesako?
-This web application draws realtime events on a geomap. It was created to illustrate **Atmosphere** framework capabilities.
+This web application draws realtime events on a geomap using the Comet/WebSocket protocols. It was created to illustrate the **Atmosphere** framework and its capabilities.
 
 User can trigger events by clicking on the map, and server can generate random events. 
 A generated event (by either client or server) is delivered to each connected clients thanks to comet/websocket protocols.
