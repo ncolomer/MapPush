@@ -1,6 +1,11 @@
 package org.mappush.resource;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletConfig;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -17,8 +22,8 @@ import org.atmosphere.cpr.BroadcasterConfig;
 import org.atmosphere.cpr.BroadcasterFactory;
 import org.atmosphere.cpr.DefaultBroadcaster;
 import org.atmosphere.jersey.SuspendResponse;
+import org.mappush.atmosphere.BoundsFilter;
 import org.mappush.atmosphere.EventListener;
-import org.mappush.filter.BoundsFilter;
 import org.mappush.model.Bounds;
 import org.mappush.model.Event;
 import org.slf4j.Logger;
@@ -50,16 +55,17 @@ public class EventResource {
 
 	private EventListener listener;
 	private EventGenerator generator;
-	
+
 	private @Context BroadcasterFactory bf;
-	
+	private @Context ServletConfig scfg;
+
 	/**
 	 * Programmatic way to get a Broadcaster instance
 	 * @return the MapPush Broadcaster
 	 */
 	private Broadcaster getBroadcaster() {
 		return bf.lookup(DefaultBroadcaster.class, "MapPush", true);
-    }
+	}
 
 	/**
 	 * The @PostConstruct annotation makes this method executed by the 
@@ -110,7 +116,7 @@ public class EventResource {
 		getBroadcaster().broadcast(event);
 		return Response.ok().build();
 	}
-	
+
 	@GET
 	@Path("start")
 	public Response start() {
@@ -118,7 +124,7 @@ public class EventResource {
 		generator.start();
 		return Response.ok().build();
 	}
-	
+
 	@GET
 	@Path("stop")
 	public Response stop() {
@@ -126,5 +132,20 @@ public class EventResource {
 		generator.stop();
 		return Response.ok().build();
 	}
-	
+
+	@GET
+	@Path("initparams")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response initparams() {
+		@SuppressWarnings("unchecked")
+		Enumeration<String> e = scfg.getInitParameterNames();
+		Map<String, String> result = new HashMap<String, String>();
+		while (e.hasMoreElements()) {
+			String key = e.nextElement();
+			String value = scfg.getInitParameter(key);
+			result.put(key, value);
+		}
+		return Response.ok().entity(result).build();
+	}
+
 }
