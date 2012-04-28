@@ -1,12 +1,12 @@
 ## MapPush demonstration
 ### Kesako?
-This web application draws realtime events on a geomap using the Comet/WebSocket protocols. It was created to illustrate the **Atmosphere** framework and its capabilities.
+This web application draws realtime events on a geomap using the Comet/WebSocket protocols. It was created to illustrate the **Atmosphere** framework's capabilities and ease of use.
 
 User can trigger events by clicking on the map, and server can generate random events. 
 A generated event (by either client or server) is delivered to each connected clients thanks to comet/websocket protocols.
 
 Web client and server both use the [Atmosphere Framework](https://github.com/Atmosphere/atmosphere) to handle and broadcast realtime events.
-The web client uses in addition the [Google Maps API v3](http://code.google.com/intl/fr-FR/apis/maps/documentation/javascript/) and the [jQuery](http://jquery.com/) libraries.
+In addition, the web client uses the [Google Maps API v3](http://code.google.com/intl/fr-FR/apis/maps/documentation/javascript/) and the [jQuery](http://jquery.com/) libraries.
 
 A demonstration video is available on [Youtube](http://www.youtube.com/watch?v=1Abv88t5igc).
 
@@ -19,7 +19,7 @@ To launch this project, proceed as following:
 * Deploy the webapp on Jetty8 using the Maven command `mvn jetty:run` (you need [Maven](http://maven.apache.org/))
 
 You are now able to connect as many tab of your favorite browser you want to [http://localhost:8080/MapPush](http://localhost:8080/MapPush).
-You may also want to use the following shell commands to play with the API:
+You may also want to use the following shell commands to play with the exposed API:
 
 ```
 # Connect to the WebSocket URI
