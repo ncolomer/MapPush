@@ -1,4 +1,4 @@
-package org.mappush.filter;
+package org.mappush.atmosphere;
 
 import org.atmosphere.cpr.BroadcastFilter;
 import org.atmosphere.cpr.BroadcastFilter.BroadcastAction.ACTION;
