@@ -13,6 +13,7 @@ public class EventListener extends WebSocketEventListenerAdapter {
 
 	@Override
 	public void onMessage(WebSocketEvent event) {
+		logger.info("WebSocket message received from client");
 		Bounds bounds = JsonUtils.fromJson(event.message(), Bounds.class);
 		if (bounds == null) return;
 		logger.info("New bounds {} for resource {}", event.message(), event.webSocket().resource().hashCode());
