@@ -102,7 +102,7 @@ public class WebSocketResourceTest extends BaseTest {
 		webSocket2.close();
 	}
 
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void testWebSocketBroadcastMessageWithBoundsChange() throws Exception {
 		logger.info("{}: running testWebSocketBroadcastMessageWithBoundsChange", getClass().getSimpleName());
 		final String clientBounds = "{\"southLat\":4.0,\"northLat\":6.0,\"westLng\":4.0,\"eastLng\":6.0}";
