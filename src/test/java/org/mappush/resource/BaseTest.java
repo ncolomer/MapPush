@@ -2,8 +2,6 @@ package org.mappush.resource;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.atmosphere.nettosphere.Config;
 import org.atmosphere.nettosphere.Nettosphere;
@@ -16,61 +14,49 @@ import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.websocket.WebSocket;
-import com.ning.http.client.websocket.WebSocketListener;
 import com.ning.http.client.websocket.WebSocketTextListener;
 import com.ning.http.client.websocket.WebSocketUpgradeHandler;
 
 public class BaseTest {
-	
+
 	protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
 	protected AsyncHttpClient client;
 	protected Nettosphere server;
-	
+
 	private String host;
 	private int port;
-	
-    private int findFreePort() throws IOException {
-        ServerSocket socket = null;
-        try {
-            socket = new ServerSocket(0);
-            return socket.getLocalPort();
-        } finally {
-            if (socket != null) {
-                socket.close();
-            }
-        }
-    }
-    
-    protected String getHttpUrl(String path) {
-    	return String.format("http://%s:%d/%s", host, port, path);
-    }
-    
-    protected String getWsUrl(String path) {
-    	return String.format("ws://%s:%d/%s", host, port, path);
-    }
-    
-    protected WebSocket getWebSocket() throws Exception {
-    	return getWebSocket(client.prepareGet(getWsUrl("")));
-    }
-    
-    protected WebSocket getWebSocket(BoundRequestBuilder request) throws Exception {
-    	logger.info("Creating new WebSocket connection");
-		final CountDownLatch latch = new CountDownLatch(2);
-		WebSocketListener listener = new WebSocketListenerImpl() {
-			@Override
-			public void onMessage(String message) {
-				latch.countDown();
+
+	private int findFreePort() throws IOException {
+		ServerSocket socket = null;
+		try {
+			socket = new ServerSocket(0);
+			return socket.getLocalPort();
+		} finally {
+			if (socket != null) {
+				socket.close();
 			}
-		};
+		}
+	}
+
+	protected String getHttpUrl(String path) {
+		return String.format("http://%s:%d/%s", host, port, path);
+	}
+
+	protected String getWsUrl(String path) {
+		return String.format("ws://%s:%d/%s", host, port, path);
+	}
+
+	protected WebSocket getWebSocket() throws Exception {
+		return getWebSocket(client.prepareGet(getWsUrl("")));
+	}
+
+	protected WebSocket getWebSocket(BoundRequestBuilder request) throws Exception {
+		logger.info("Creating new WebSocket connection");
 		WebSocketUpgradeHandler handler = new WebSocketUpgradeHandler.Builder().build();
 		WebSocket webSocket = request.execute(handler).get();
-		webSocket.addWebSocketListener(listener);
-		webSocket.sendPing("PING".getBytes());
-		latch.await(10, TimeUnit.SECONDS);
-		webSocket.removeWebSocketListener(listener);
 		return webSocket;
-    }
+	}
 
 	@BeforeClass
 	public void setUp() throws IOException {
@@ -96,7 +82,7 @@ public class BaseTest {
 		client.close();
 		server.stop();
 	}
-	
+
 	public class WebSocketListenerImpl implements WebSocketTextListener {
 
 		@Override

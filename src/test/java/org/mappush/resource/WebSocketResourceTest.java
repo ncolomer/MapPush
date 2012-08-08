@@ -21,9 +21,9 @@ import com.ning.http.client.websocket.WebSocketUpgradeHandler;
 public class WebSocketResourceTest extends BaseTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(WebSocketResourceTest.class);
-	
-	@Test(enabled=true)
-	public void testWebSocketConnection() throws Exception {
+
+	@Test(enabled = true)
+	public void sendPing() throws Exception {
 		logger.info("{}: running testWebSocketConnection", getClass().getSimpleName());
 		final String ping = "PING";
 		final CountDownLatch latch = new CountDownLatch(1);
@@ -45,8 +45,8 @@ public class WebSocketResourceTest extends BaseTest {
 		webSocket.close();
 	}
 
-	@Test(enabled=true)
-	public void testWebSocketBroadcastMessageNoBounds() throws Exception {
+	@Test(enabled = true)
+	public void sendMessage_withNoBounds_shouldBroadcast() throws Exception {
 		logger.info("{}: running testWebSocketBroadcastMessageNoBounds", getClass().getSimpleName());
 		final String sentEvent = "{\"lat\":0.0,\"lng\":0.0}";
 		final CountDownLatch onMessageLatch = new CountDownLatch(1);
@@ -67,8 +67,8 @@ public class WebSocketResourceTest extends BaseTest {
 		webSocket.close();
 	}
 
-	@Test(enabled=true)
-	public void testWebSocketBroadcastMessageWithBoundsHeader() throws Exception {
+	@Test(enabled = true)
+	public void sendMessage_withBoundsHeader_shouldBroadcast() throws Exception {
 		logger.info("{}: running testWebSocketBroadcastMessageWithBoundsHeader", getClass().getSimpleName());
 		final String clientBounds = "4.0,6.0,4.0,6.0";
 		final String inBoundsEvent = "{\"lat\":5.0,\"lng\":5.0}";
@@ -102,8 +102,9 @@ public class WebSocketResourceTest extends BaseTest {
 		webSocket2.close();
 	}
 
-	@Test(enabled=false)
-	public void testWebSocketBroadcastMessageWithBoundsChange() throws Exception {
+	// Broken test, see https://github.com/Atmosphere/nettosphere/issues/13
+	@Test(enabled = false)
+	public void sendMessage_withBoundsChange_shouldBroadcast() throws Exception {
 		logger.info("{}: running testWebSocketBroadcastMessageWithBoundsChange", getClass().getSimpleName());
 		final String clientBounds = "{\"southLat\":4.0,\"northLat\":6.0,\"westLng\":4.0,\"eastLng\":6.0}";
 		final String inBoundsEvent = "{\"lat\":5.0,\"lng\":5.0}";
