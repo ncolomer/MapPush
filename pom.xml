@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mappush</groupId>
 	<artifactId>MapPush</artifactId>
@@ -8,13 +7,20 @@
 	<name>MapPush</name>
 
 	<properties>
-		<atmosphere.version>0.9.7</atmosphere.version>
+		<!-- Project -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.6</java.version>
+		<!-- Libraries -->
 		<jersey.version>1.10</jersey.version>
-		<nettosphere.version>1.3.1</nettosphere.version>
-		<ahc.version>1.7.4</ahc.version>
-		<javaee.version>6.0</javaee.version>
-		<testng.version>6.5.2</testng.version>
-		<logback.version>0.9.30</logback.version>
+		<atmosphere.version>0.9.5</atmosphere.version>
+		<nettosphere.version>1.4.0</nettosphere.version>
+		<ahc.version>1.7.5</ahc.version>
+		<!-- Test -->
+		<testng.version>6.7</testng.version>
+		<!-- Log -->
+		<logback.version>1.0.6</logback.version>
+		<!-- Maven plugins -->
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 		<maven-war-plugin.version>2.1.1</maven-war-plugin.version>
 		<jetty.version>8.1.1.v20120215</jetty.version>
@@ -60,6 +66,16 @@
 			<groupId>org.atmosphere</groupId>
 			<artifactId>nettosphere</artifactId>
 			<version>${nettosphere.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- AHC -->
