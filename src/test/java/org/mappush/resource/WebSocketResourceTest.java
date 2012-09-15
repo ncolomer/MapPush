@@ -102,8 +102,7 @@ public class WebSocketResourceTest extends BaseTest {
 		webSocket2.close();
 	}
 
-	// Broken test, see https://github.com/Atmosphere/nettosphere/issues/13
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void sendMessage_withBoundsChange_shouldBroadcast() throws Exception {
 		logger.info("{}: running testWebSocketBroadcastMessageWithBoundsChange", getClass().getSimpleName());
 		final String clientBounds = "{\"southLat\":4.0,\"northLat\":6.0,\"westLng\":4.0,\"eastLng\":6.0}";
