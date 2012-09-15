@@ -4,7 +4,6 @@ $(document).ready(function() {
 	// IE console compatibility
 	console = (!window.console) ? {} : window.console;
 	console.log = (!window.console.log) ? function() {} : window.console.log;
-	console.log(apiUrl);
 
 	mapAgent.init('map-canvas', [40, -40], 2);
 	statsAgent.totalCallback = function(total) { $('.tre').text(total); };
@@ -145,20 +144,19 @@ var webSocketAgent = {
 			request.onOpen = function(response) {
 				console.log('Connected to realtime endpoint using ' + response.transport);
 			};
+			request.onReconnect = function(response) {
+				console.log('Reconnecting to realtime endpoint');
+			};
 			request.onClose = function(response) {
 				console.log('Disconnected from realtime endpoint');
 			};
 			request.onMessage = function (response) {
-				if (response.transport != 'polling' && response.state == 'messageReceived') {
-					if (response.status == 200) {
-						var data = response.responseBody;
-						if (data.length > 0) {
-							statsAgent.notify();
-							console.log('Message Received using ' + response.transport + ': ' + data);
-							var json = JSON.parse(data);
-							mapAgent.drawEvent(json);
-						}
-					}
+				var data = response.responseBody;
+				if (data.length > 0) {
+					statsAgent.notify();
+					console.log('Message Received using ' + response.transport + ': ' + data);
+					var json = JSON.parse(data);
+					mapAgent.drawEvent(json);
 				}
 			};
 			this.socket = $.atmosphere.subscribe(request);
