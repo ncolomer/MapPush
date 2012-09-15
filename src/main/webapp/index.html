@@ -1,41 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript" src="jquery/jquery.atmosphere.js"></script>
-<script type="text/javascript" src="js/scripts.js"></script>
-
-<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.16/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
-
-<title>MapPush</title>
+	<title>MapPush</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-
-<div id="map">
-	<div id="map-canvas"></div>
-	<div id="map-stats">
-		<div><span class="eps">0</span> <b>EPS</b></div>
-		<div><span class="tre">0</span></div>
+	<div class="container">
+		<div class="row">
+			<div class="span6 offset3">
+				<h2>MapPush <small>An <a href="https://github.com/Atmosphere/atmosphere" target="_blank">Atmosphere</a> framework implementation sample</small></h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span6 offset3">
+				<div id="map">
+					<div id="map-canvas"></div>
+					<div id="map-stats">
+						<div><span class="eps">0</span> <b>EPS</b></div>
+						<div><span class="tre">0</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span6 offset3">
+				<div class="btn-toolbar">
+					<div id="btn-connection" class="btn-group">
+						<button type="button" id="btn-connection-connect" class="btn btn-small"><i class="icon-resize-small"></i> Connect</button>
+						<button type="button" id="btn-connection-disconnect" class="btn btn-small active"><i class="icon-ban-circle"></i> Disconnect</button>
+					</div>
+					<div id="btn-generation" class="btn-group">
+						<button type="button" id="btn-generation-start" class="btn btn-small"><i class="icon-play"></i> Start</button>
+						<button type="button" id="btn-generation-stop" class="btn btn-small active"><i class="icon-stop"></i> Stop</button>
+					</div>
+					<button type="button" id="btn-stats" class="btn btn-small"><i class="icon-info-sign"></i> Statistics</button>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-
-<div id="toolbar">
-	<div id="button-connection">
-		<input type="radio" name="radio1" id="button-connect" /><label for="button-connect">Connect</label>
-		<input type="radio" name="radio1" id="button-disconnect" checked="checked" /><label for="button-disconnect">Disconnect</label>
-	</div>
-	<div id="button-fireworks">
-		<input type="radio" name="radio2" id="button-start" /><label for="button-start">Start</label>
-		<input type="radio" name="radio2" id="button-stop" checked="checked" /><label for="button-stop">Stop</label>
-	</div>
-	<input type="checkbox" id="button-stats" /><label for="button-stats">Statistics</label>
-</div>
-
+	<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="jquery/jquery.atmosphere.js"></script>
+	<script src="js/scripts.js"></script>
 </body>
 </html>

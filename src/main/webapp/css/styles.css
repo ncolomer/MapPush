@@ -1,29 +1,18 @@
 
-body {
-	background-color: #fff;
-	font: 8pt "Helvetica Neue", sans-serif;
-	color: #000;
-}
-
 #map {
-	position: relative;
-	width: 600px;
-	height: 300px;
-	border: 2px inset;
-	margin: 20px auto;
+	position:relative;
 }
 
 #map-canvas {
-	width: 100%;
-	height: 100%;
+	height: 300px;
 }
 
 #map-stats {
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
-	margin-right: 10px;
 	margin-bottom: 30px;
+	margin-right: 10px;
 	text-align: right;
 	display: none;
 }
@@ -31,18 +20,5 @@ body {
 	font: bold 30pt "Courier New", Courier, monospace;
 }
 #map-stats .tre {
-	font: 12pt "Courier New", Courier, monospace; /*Monaco*/
-}
-
-#toolbar {
-	width: 100%;
-	padding: 10px 0px 10px 0px;
-	text-align: center;
-	background-color: #f8f8f8;
-	border-top: 1px dotted #ccc;
-	border-bottom: 1px dotted #ccc;
-}
-
-#toolbar > div {
-	display: inline-block;
+	font: 12pt "Courier New", Courier, monospace;
 }
