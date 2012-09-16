@@ -8,43 +8,43 @@ $(document).ready(function() {
 	mapAgent.init('map-canvas', [40, -40], 2);
 	statsAgent.totalCallback = function(total) { $('.tre').text(total); };
 	statsAgent.epsCallback = function(eps) { $('.eps').text(eps); };
-	
+
 	initButtons();
 });
 
 function initButtons() {
 	$('body').on('click', '#btn-connection button', function() {
-	    if(!$(this).hasClass('active')) {
-	    	$('#btn-connection button').removeClass('active');
-	        $(this).addClass('active');
-	        switch ($(this).attr('id')) {
-	        case 'btn-connection-connect':
+		if(!$(this).hasClass('active')) {
+			$('#btn-connection button').removeClass('active');
+			$(this).addClass('active');
+			switch ($(this).attr('id')) {
+			case 'btn-connection-connect':
 				console.log("Connecting...");
 				webSocketAgent.connect();
-	            break;
-	        case 'btn-connection-disconnect':
+				break;
+			case 'btn-connection-disconnect':
 				console.log("Disconnecting...");
 				webSocketAgent.disconnect();
-	            break;
-	        }
-	    }
+				break;
+			}
+		}
 	});
-	
+
 	$('body').on('click', '#btn-generation button', function() {
-	    if(!$(this).hasClass('active')) {
-	    	$('#btn-generation button').removeClass('active');
-	        $(this).addClass('active');
-	        switch ($(this).attr('id')) {
-	        case 'btn-generation-start':
-	        	$.ajax({type: 'GET', url: apiUrl + '/start'});
-	            break;
-	        case 'btn-generation-stop':
-	        	$.ajax({type: 'GET', url: apiUrl + '/stop'});
-	            break;
-	        }
-	    }
+		if(!$(this).hasClass('active')) {
+			$('#btn-generation button').removeClass('active');
+			$(this).addClass('active');
+			switch ($(this).attr('id')) {
+			case 'btn-generation-start':
+				$.ajax({type: 'GET', url: apiUrl + '/start'});
+				break;
+			case 'btn-generation-stop':
+				$.ajax({type: 'GET', url: apiUrl + '/stop'});
+				break;
+			}
+		}
 	});
-	
+
 	$('#btn-stats').button().click(function () {
 		if (!$(this).hasClass('active')) {
 			$(this).addClass('active');

@@ -1,6 +1,5 @@
-
 #map {
-	position:relative;
+	position: relative;
 }
 
 #map-canvas {
@@ -16,9 +15,11 @@
 	text-align: right;
 	display: none;
 }
+
 #map-stats .eps {
 	font: bold 30pt "Courier New", Courier, monospace;
 }
+
 #map-stats .tre {
 	font: 12pt "Courier New", Courier, monospace;
 }

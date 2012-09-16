@@ -1,4 +1,5 @@
 ## MapPush demonstration
+
 ### Kesako?
 MapPush is a simple web application that draws realtime events on a geomap using the Comet/WebSocket protocols. It was created to illustrate the **Atmosphere** framework's capabilities and ease of use.
 
