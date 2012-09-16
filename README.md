@@ -1,4 +1,4 @@
-## MapPush demonstration
+## MapPush
 
 <p align="center">
   <img src="https://raw.github.com/ncolomer/MapPush/master/mappush.png" alt="MapPush client screenshot"/>
@@ -11,9 +11,11 @@ User can trigger events by clicking on the map, and server can generate random e
 A generated event (by either client or server) is delivered to each connected clients via available protocols.
 
 Both web client and server use the [Atmosphere Framework](https://github.com/Atmosphere/atmosphere) to handle and broadcast realtime events.
-In addition, the web client uses [Leaflet](http://leaflet.cloudmade.com/) library with [MapQuest](http://www.mapquest.com/) OSM tiles and its GUI was built using [Bootstrap](http://twitter.github.com/bootstrap) and [jQuery](http://jquery.com/) libraries. 
+In addition, the web client uses [Leaflet](http://leaflet.cloudmade.com/) library with [MapQuest](http://www.mapquest.com/) OSM tiles; its GUI was built using [Bootstrap](http://twitter.github.com/bootstrap) and [jQuery](http://jquery.com/) libraries.
 
-For more information about this project, please read the [Come/WebSocket? Introducing the Atmosphere framework](http://www.ncolomer.net/2012/03/comewebsocket-introducing-the-atmosphere-framework/) blog post. A demonstration video is also available on [Youtube](http://www.youtube.com/watch?v=1Abv88t5igc).
+For more information about this project, please read the [Come/WebSocket? Introducing the Atmosphere framework](http://www.ncolomer.net/2012/03/comewebsocket-introducing-the-atmosphere-framework/) blog post.
+
+A [demonstration video](http://www.youtube.com/watch?v=1Abv88t5igc) is also available on Youtube.
 
 ### Try it!
 To launch this project, proceed as following:
