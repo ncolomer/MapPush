@@ -50,8 +50,7 @@ public class EventResourceITest extends BaseTest {
 	public void postEvent_withAsyncDisabled() throws Exception {
 		// setup
 		final String event = "{\"lat\":1.234,\"lng\":1.234}";
-		WebSocket webSocket1 = getWebSocket();
-		WebSocket webSocket2 = getWebSocket();
+		WebSocket webSocket = getWebSocket();
 		// test
 		Response response = client.preparePost(buildHttpUrl("event"))
 				.addQueryParameter("async", "false")
@@ -59,9 +58,8 @@ public class EventResourceITest extends BaseTest {
 				.setBody(event).execute().get();
 		// assert
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.getResponseBody(), "2");
-		webSocket1.close();
-		webSocket2.close();
+		assertEquals(response.getResponseBody(), "1");
+		webSocket.close();
 	}
 
 	@Test
