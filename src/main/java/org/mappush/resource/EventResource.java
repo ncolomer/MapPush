@@ -2,11 +2,13 @@ package org.mappush.resource;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -107,14 +109,23 @@ public class EventResource {
 	 * @param event
 	 *            the Event (deserialized from JSON by Jersey)
 	 * @return a 200 Response
+	 * @throws Exception
 	 */
 	@POST
 	@Path("event")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response broadcastEvent(Event event) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response broadcastEvent(@QueryParam("async") @DefaultValue("true") boolean async,
+			Event event) throws Exception {
 		LOG.info("New event received: {}", event);
-		getBroadcaster().broadcast(event);
-		return Response.ok().build();
+		if (async) {
+			getBroadcaster().broadcast(event);
+			return Response.ok(0).build();
+		} else {
+			getBroadcaster().broadcast(event).get();
+			int size = getBroadcaster().getAtmosphereResources().size();
+			return Response.ok(size).build();
+		}
 	}
 
 	@GET

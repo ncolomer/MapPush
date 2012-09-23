@@ -33,22 +33,20 @@ public class BaseTest {
 			socket = new ServerSocket(0);
 			return socket.getLocalPort();
 		} finally {
-			if (socket != null) {
-				socket.close();
-			}
+			if (socket != null) socket.close();
 		}
 	}
 
-	protected String getHttpUrl(String path) {
+	protected String buildHttpUrl(String path) {
 		return String.format("http://%s:%d/%s", host, port, path);
 	}
 
-	protected String getWsUrl(String path) {
+	protected String buildWsUrl(String path) {
 		return String.format("ws://%s:%d/%s", host, port, path);
 	}
 
 	protected WebSocket getWebSocket() throws Exception {
-		return getWebSocket(client.prepareGet(getWsUrl("")));
+		return getWebSocket(client.prepareGet(buildWsUrl("")));
 	}
 
 	protected WebSocket getWebSocket(BoundRequestBuilder request) throws Exception {
@@ -61,7 +59,9 @@ public class BaseTest {
 	@BeforeClass
 	public void setUp() throws IOException {
 		// Setup AsyncHttpClient
-		AsyncHttpClientConfig ahcConfig = new AsyncHttpClientConfig.Builder().build();
+		AsyncHttpClientConfig ahcConfig = new AsyncHttpClientConfig.Builder()
+				.setRequestTimeoutInMs(5000)
+				.build();
 		client = new AsyncHttpClient(ahcConfig);
 		// Setup Nettosphere
 		host = "127.0.0.1";
