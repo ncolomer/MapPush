@@ -6,55 +6,60 @@ import org.atmosphere.cpr.Broadcaster;
 import org.mappush.model.Event;
 
 public class EventGenerator {
-	
-	private final Random random = new Random();
-	
-	private Broadcaster broadcaster;
-	private int interval;
-	private Thread generator;
-	
+
+	private static final String GENERATOR_THREAD_NAME = "GeneratorThread";
+
+	private volatile Thread generatorThread;
+
 	/**
-	 * EventGenerator constructor.
-	 * @param broadcaster The Broadcaster used to push generated events
-	 * @param interval The interval time in ms between each event generation
+	 * Starts the generation of random events. Each event is broadcasted using
+	 * the provided Broadcaster. This method does nothing if a Generator is
+	 * already running.
 	 */
-	public EventGenerator(Broadcaster broadcaster, int interval) {
-		this.broadcaster = broadcaster;
-		this.interval = interval;
-	}
-	
-	/**
-	 * Starts the generation of random events. Each event is broadcasted
-	 * using the provided Broadcaster.
-	 */
-	public void start() {
-		if (generator == null) {
-			generator = new Thread(new Generator() , "GeneratorThread");
-			generator.start();
+	public synchronized void start(Broadcaster broadcaster, int interval) {
+		if (generatorThread == null) {
+			Generator generator = new Generator(broadcaster, interval);
+			generatorThread = new Thread(generator, GENERATOR_THREAD_NAME);
+			generatorThread.start();
 		}
 	}
-	
+
 	/**
-	 * Stops the generation of random events.
+	 * Stops the generation of random events. This method does nothing if no
+	 * Generator was started before.
 	 */
-	public void stop() {
-		if (generator != null) {
-			generator.interrupt();
-			generator = null;
+	public synchronized void stop() {
+		if (generatorThread != null) {
+			Thread tmpReference = generatorThread;
+			generatorThread = null;
+			tmpReference.interrupt();
 		}
 	}
-	
+
 	private class Generator implements Runnable {
-		
+
+		private final Random random;
+		private final Broadcaster broadcaster;
+		private final int interval;
+
+		public Generator(Broadcaster broadcaster, int interval) {
+			this.random = new Random();
+			this.broadcaster = broadcaster;
+			this.interval = interval;
+		}
+
 		@Override
 		public void run() {
-			while(true) {
+			Thread currentThread = Thread.currentThread();
+			while (currentThread == generatorThread) {
 				try {
-					double lat = (random.nextInt((int)(180*10E6)) - 90*10E6) / 10E6 ;
-					double lng = (random.nextInt((int)(360*10E6)) - 180*10E6) / 10E6 ;
+					double lat = random.nextInt((int) 180E6) / 10E6 - 90;
+					double lng = random.nextInt((int) 360E6) / 10E6 - 180;
 					broadcaster.broadcast(new Event(lat, lng));
 					Thread.sleep(interval);
-				} catch (InterruptedException e) {break;}
+				} catch (InterruptedException e) {
+					break;
+				}
 			}
 		}
 

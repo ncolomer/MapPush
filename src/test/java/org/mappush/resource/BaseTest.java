@@ -19,7 +19,7 @@ import com.ning.http.client.websocket.WebSocketUpgradeHandler;
 
 public class BaseTest {
 
-	protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
 	protected AsyncHttpClient client;
 	protected Nettosphere server;
@@ -52,7 +52,7 @@ public class BaseTest {
 	}
 
 	protected WebSocket getWebSocket(BoundRequestBuilder request) throws Exception {
-		logger.info("Creating new WebSocket connection");
+		LOG.info("Creating new WebSocket connection");
 		WebSocketUpgradeHandler handler = new WebSocketUpgradeHandler.Builder().build();
 		WebSocket webSocket = request.execute(handler).get();
 		return webSocket;
@@ -69,11 +69,11 @@ public class BaseTest {
 		Config nettosphereConfig = new Config.Builder()
 				.host(host)
 				.port(port)
-				.initParam("com.sun.jersey.config.property.packages", "org.mappush.resource;org.mappush.jersey")
+				.initParam("com.sun.jersey.config.property.packages", "org.mappush")
 				.initParam("com.sun.jersey.api.json.POJOMappingFeature", "true")
 				.build();
 		server = new Nettosphere.Builder().config(nettosphereConfig).build();
-		logger.info("Starting Nettosphere on address {}:{}", host, port);
+		LOG.info("Starting Nettosphere on address {}:{}", host, port);
 		server.start();
 	}
 

@@ -11,44 +11,32 @@ import org.slf4j.LoggerFactory;
 
 public class BoundsFilter implements PerRequestBroadcastFilter {
 
-	private final Logger logger = LoggerFactory.getLogger(BoundsFilter.class);
+	private final Logger LOG = LoggerFactory.getLogger(BoundsFilter.class);
 
 	@Override
 	public BroadcastAction filter(Object originalMessage, Object message) {
 		return new BroadcastAction(ACTION.CONTINUE, originalMessage);
 	}
-	
+
 	@Override
-	public BroadcastAction filter(AtmosphereResource res, Object originalMessage, Object message) {
-		logger.info("BoundsFilter triggered for AtmosphereResource {} with message {}", res.hashCode(), message);
+	public BroadcastAction filter(AtmosphereResource resource, Object originalMessage, Object message) {
+		LOG.info("BoundsFilter triggered for resource {} with message {}", resource.hashCode(), message);
 		Event event = (Event) message;
-		try {
-			Bounds bounds = (Bounds) res.getRequest().getAttribute("bounds");
-			if (bounds == null) throw new NoBoundsException("no bounds");
+		Bounds bounds = (Bounds) resource.getRequest().getAttribute("bounds");
+		if (bounds != null) {
 			if (bounds.contains(event)) {
-				String json = JsonUtils.toJson(event); // Manual serialization
+				LOG.debug("Bounds matched: applying action CONTINUE");
+				String json = JsonUtils.toJson(event);
 				return new BroadcastAction(ACTION.CONTINUE, json);
 			} else {
+				LOG.debug("Bounds not matched: applying action ABORT");
 				return new BroadcastAction(ACTION.ABORT, message);
 			}
-		} catch (NoBoundsException e) {
-			logger.info("Applying default action CONTINUE, cause: {}", e.getMessage());
-			String json = JsonUtils.toJson(event); // Manual serialization
+		} else {
+			LOG.debug("No bounds: applying default action CONTINUE");
+			String json = JsonUtils.toJson(event);
 			return new BroadcastAction(ACTION.CONTINUE, json);
-		} catch (Exception e) {
-			logger.info("Filter BoundsFilter aborted, cause: {}", e.getMessage());
-			return new BroadcastAction(ACTION.ABORT, message);
 		}
 	}
 
-	public class NoBoundsException extends Exception {
-
-		private static final long serialVersionUID = -1479015550025668286L;
-		
-		public NoBoundsException(String string) {
-			super(string);
-		}
-
-	}
-	
 }

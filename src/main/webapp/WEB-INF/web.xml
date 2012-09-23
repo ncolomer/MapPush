@@ -16,7 +16,7 @@
 		<servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>org.mappush.resource;org.mappush.jersey</param-value>
+			<param-value>org.mappush</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
